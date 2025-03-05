@@ -20,12 +20,18 @@ public class OracleConfig {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .url(dbUrl)
-                .username("")
-                .password("")
+                .username(username)
+                .password(password)
                 .driverClassName("oracle.jdbc.OracleDriver")
                 .build();
     }
