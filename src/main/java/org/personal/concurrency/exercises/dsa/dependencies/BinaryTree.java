@@ -71,11 +71,11 @@ public class BinaryTree<T> {
 
     // Helper function to perform inorder traversal
     private void traverseInOrder(TreeNode<T> root, ArrayList<T> nodes) {
-        if (root == null) return;
+        if(root == null) return;
+        traverseInOrder(root.left, nodes);
+        nodes.add(root.value);
+        traverseInOrder(root.right, nodes);
 
-        traverseInOrder(root.left, nodes);  // Visit left subtree
-        nodes.add(root.value);        // Visit node
-        traverseInOrder(root.right, nodes); // Visit right subtree
     }
 
     // Helper function to perform inorder traversal

@@ -76,7 +76,7 @@ public class TreeTraversal {
         if(root == null) return levels;
 
         //Leverage the FIFO structure of a queue to detect new levels
-        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<TreeNode<Integer>> queue = new LinkedList<>();
         queue.add(root);
 
         while(!queue.isEmpty()) {
