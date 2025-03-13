@@ -31,13 +31,13 @@ public class ExchangeLinkedListNodes {
         Node<Integer> first = head, second = head;
         Node<Integer> firstPrev = null, secondPrev = null;
 
-        // Step 1: Find the Kth node from the beginning and its previous node
+        // 1: find the Kth node from the beginning and its previous node
         for (int i = 1; i < k; i++) {
             firstPrev = first;
             first = first.next;
         }
 
-        // Step 2: Find the Kth node from the end and its previous node
+        // 2: find kth node from end and its previous node - maintain a temp value to detect end of list (null element)
         Node<Integer> temp = first;
         while (temp.next != null) {
             temp = temp.next;
@@ -45,10 +45,10 @@ public class ExchangeLinkedListNodes {
             second = second.next;
         }
 
-        // Step 3: If the Kth node from the start and end are the same, no swap needed
+        // 3: no swap needed if first and second are the same (i.e. cant swap same values in place)
         if (first == second) return head;
 
-        // Step 4: Swap the nodes
+        // 4: swap the nodes
         if (firstPrev != null) {
             firstPrev.next = second;
         } else {
@@ -61,7 +61,7 @@ public class ExchangeLinkedListNodes {
             head = first;
         }
 
-        // Swap their next pointers
+        // reassign pointers as necessary
         Node<Integer> tempNext = first.next;
         first.next = second.next;
         second.next = tempNext;
