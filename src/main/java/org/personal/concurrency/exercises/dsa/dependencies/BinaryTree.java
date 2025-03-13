@@ -8,13 +8,11 @@ import static org.personal.concurrency.exercises.dsa.dependencies.Constants.*;
 
 public class BinaryTree<T> {
     public TreeNode<T> root;
-
-    // Constructor
+    
     public BinaryTree() {
         this.root = null;
     }
-
-    // Insert manually (since it's not a BST)
+    
     public void insertLeft(TreeNode<T> parent, T value) {
         parent.left = new TreeNode<>(value);
     }
@@ -23,7 +21,7 @@ public class BinaryTree<T> {
         parent.right = new TreeNode<>(value);
     }
 
-    // Fancy Printer
+    // somewhat graphical printer
     public void printTree(TreeNode<T> root) {
         if (root == null) {
             System.out.println("Tree is empty");
@@ -31,7 +29,7 @@ public class BinaryTree<T> {
         }
 
         int height = getHeight(root);
-        int width = (int) Math.pow(2, height) - 1; // Max width at the bottom
+        int width = (int) Math.pow(2, height) - 1; // get the max width of bottom level
         List<List<String>> res = new ArrayList<>();
 
         for (int i = 0; i < height; i++) {
@@ -44,7 +42,7 @@ public class BinaryTree<T> {
         }
     }
 
-    // Recursively fill the list with node values
+    // recursive fill
     private void fill(List<List<String>> res, TreeNode root, int level, int left, int right) {
         if (root == null) return;
         int mid = (left + right) / 2;
@@ -53,12 +51,12 @@ public class BinaryTree<T> {
         fill(res, root.right, level + 1, mid + 1, right);
     }
 
-    // Get the height of the tree
     private int getHeight(TreeNode<T> root) {
         if (root == null) return 0;
         return 1 + Math.max(getHeight(root.left), getHeight(root.right));
     }
 
+    //using a switch statement to make it easy to pick what type of traversal we want to use
     public ArrayList<T> traverseTree(TreeNode<T> root, String traversalType) {
         ArrayList<T> nodes = new ArrayList<>();
         switch(traversalType) {
@@ -68,8 +66,7 @@ public class BinaryTree<T> {
         }
         return nodes;
     }
-
-    // Helper function to perform inorder traversal
+    
     private void traverseInOrder(TreeNode<T> root, ArrayList<T> nodes) {
         if(root == null) return;
         traverseInOrder(root.left, nodes);
@@ -77,21 +74,19 @@ public class BinaryTree<T> {
         traverseInOrder(root.right, nodes);
 
     }
-
-    // Helper function to perform inorder traversal
+ 
     private void traversePostOrder(TreeNode<T> root, ArrayList<T> nodes) {
         if (root == null) return;
-        traversePostOrder(root.left, nodes);  // Visit left subtree
-        traversePostOrder(root.right, nodes); // Visit right subtree
-        nodes.add(root.value);       // Visit node
+        traversePostOrder(root.left, nodes); 
+        traversePostOrder(root.right, nodes); 
+        nodes.add(root.value);
     }
 
-    // Helper function to perform inorder traversal
     private void traversePreOrder(TreeNode<T> root, ArrayList<T> nodes) {
         if (root == null) return;
-        nodes.add(root.value);        // Visit node
-        traversePreOrder(root.left, nodes);  // Visit left subtree
-        traversePreOrder(root.right, nodes); // Visit right subtree
+        nodes.add(root.value);       
+        traversePreOrder(root.left, nodes);  
+        traversePreOrder(root.right, nodes); 
     }
 }
 
