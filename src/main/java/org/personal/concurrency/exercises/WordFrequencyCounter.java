@@ -13,25 +13,23 @@ public class WordFrequencyCounter {
 
     private static final Logger log = LoggerFactory.getLogger(WordFrequencyCounter.class);
 
-    static final int NUM_THREADS = 4;  // Number of threads
+    static final int NUM_THREADS = 4;  
 
     public static void main(String[] args) throws IOException {
-        // Read the text file from classpath
-        String text = readTextFromFile("input.txt");  // Ensure "input.txt" is in resources/classpath
+        
+        String text = readTextFromFile("input.txt");  
 
-        // Split text into parts (Avoid cutting words in half)
+        // use regex matching to split the text into actual words
         List<String> textParts = splitTextSmartly(text, NUM_THREADS);
 
-        // ExecutorService for thread management
+        // use a fixed thread pool based on NUM_THREADS
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
         List<Future<Map<String, Integer>>> futures = new ArrayList<>();
 
-        // Submit tasks for each text part
+        // once we have all text parts, submit each into a thread
         for (String part : textParts) {
             futures.add(executor.submit(new WordCountTask(part)));
-        }
-
-        // Use ConcurrentHashMap for efficient merging
+        }       
         ConcurrentHashMap<String, Integer> wordFrequency = new ConcurrentHashMap<>();
 
         futures.parallelStream().forEach(future -> {
@@ -44,17 +42,16 @@ public class WordFrequencyCounter {
             }
         });
 
-        // Sort results in descending order and print
+        // sort in descending order
         wordFrequency.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
-
-        // Shutdown executor
+        
         executor.shutdown();
     }
 
-    // Task for counting words in a given text part
+    // task to count words in each split part
     static class WordCountTask implements Callable<Map<String, Integer>> {
         private final String text;
 
@@ -77,20 +74,17 @@ public class WordFrequencyCounter {
 
         return java.util.stream.IntStream.range(0, numParts)
                 .mapToObj(i -> {
-                    int start = (i == 0) ? 0 : text.lastIndexOf(" ", i * partLength); // Find start at space
-                    int end = (i == numParts - 1) ? text.length() : text.lastIndexOf(" ", (i + 1) * partLength);
-
-                    // Ensure valid start and end
-                    if (start == -1) start = i * partLength; // Fallback if no space found
+                    int start = (i == 0) ? 0 : text.lastIndexOf(" ", i * partLength); 
+                    int end = (i == numParts - 1) ? text.length() : text.lastIndexOf(" ", (i + 1) * partLength);                  
+                    if (start == -1) start = i * partLength;
                     if (end == -1 || end <= start) end = Math.min(start + partLength, text.length());
 
                     return text.substring(start, end).trim();
                 })
-                .filter(s -> !s.isEmpty()) // Remove empty segments
+                .filter(s -> !s.isEmpty()) // exclude empty portions
                 .collect(Collectors.toList());
     }
-
-    // Method to read text from a file in the classpath
+ 
     private static String readTextFromFile(String fileName) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);

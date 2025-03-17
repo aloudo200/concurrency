@@ -5,7 +5,6 @@ public class TreeNode<T> {
     public TreeNode<T> left;
     public TreeNode<T> right;
 
-    // Constructor
     public TreeNode(T value) {
         this.value = value;
         this.left = null;

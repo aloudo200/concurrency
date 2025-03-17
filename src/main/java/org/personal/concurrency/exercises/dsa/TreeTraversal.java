@@ -53,14 +53,14 @@ public class TreeTraversal {
     }
 
     public static int minDepth(TreeNode<Integer> root) {
-        if (root == null) return 0; // Base case: empty tree
+        if (root == null) return 0; // check if the root node is empty
 
-        if (root.left == null && root.right == null) return 1; // Leaf node → depth is 1
+        if (root.left == null && root.right == null) return 1; 
 
-        if (root.left == null) return 1 + minDepth(root.right); // No left subtree
-        if (root.right == null) return 1 + minDepth(root.left); // No right subtree
+        if (root.left == null) return 1 + minDepth(root.right); // can't traverse left
+        if (root.right == null) return 1 + minDepth(root.left); // can't traverse right
 
-        return 1 + Math.min(minDepth(root.left), minDepth(root.right)); // Take the min depth of left & right
+        return 1 + Math.min(minDepth(root.left), minDepth(root.right)); // return the min depth of left & right
     }
 
     private static boolean findPath(TreeNode<Integer> node, int target, ArrayList<Integer> ancestors) {
@@ -111,11 +111,11 @@ public class TreeTraversal {
 
     public static List<List<Integer>> printLevelOrder(TreeNode<Integer> root) {
 
-        //Maintain a 2D array of each level
+        // maintain a 2D array of each level
         List<List<Integer>> levels = new ArrayList<>();
         if(root == null) return levels;
 
-        //Leverage the FIFO structure of a queue to detect new levels
+        // leverage the FIFO structure of a queue to detect new levels
         Queue<TreeNode<Integer>> queue = new LinkedList<>();
         queue.add(root);
 

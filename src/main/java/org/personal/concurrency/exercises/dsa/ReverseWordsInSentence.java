@@ -10,7 +10,7 @@ public class ReverseWordsInSentence {
 
         ReverseWordsInSentence reverseWordsInSentence = new ReverseWordsInSentence();
 
-        System.out.println(reverseWordsInSentence.reverseSentence("this is morgan stanley interview question"));
+        System.out.println(reverseWordsInSentence.reverseSentence("i am going to be reversed"));
 
     }
 
