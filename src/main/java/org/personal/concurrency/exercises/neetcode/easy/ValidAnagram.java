@@ -1,7 +1,10 @@
 package org.personal.concurrency.exercises.neetcode.easy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ValidAnagram {
 
@@ -25,5 +28,27 @@ public class ValidAnagram {
 
         return frequencyA.equals(frequencyB);
     }
+
+//    public List<List<String>> groupAnagrams(String[] strs) {
+//
+//        //    HashMap<Character, Integer> alphabet = new HashMap<>();
+//
+//        //    for(char c = 'a'; c <= 'z'; c++) {
+//        //    charMap.put(c, 0);
+//        //    }
+//
+//        HashMap<String, Integer> charSums = new HashMap<>();
+//
+//        ArrayList<String> groupedAnagrams = new ArrayList<>();
+//
+//        for(String word : strs) {
+//            charSums.put(word, word.chars().sum());
+//
+//        }
+//
+//
+//
+//
+//    }
 
 }

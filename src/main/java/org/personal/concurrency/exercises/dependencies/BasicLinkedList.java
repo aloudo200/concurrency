@@ -1,4 +1,4 @@
-package org.personal.concurrency.exercises.dsa.dependencies;
+package org.personal.concurrency.exercises.dependencies;
 
 public class BasicLinkedList<T> {
     Node<T> head;
@@ -23,7 +23,7 @@ public class BasicLinkedList<T> {
     public void printList() {
         Node<T> temp = head;
         while (temp != null) {
-            System.out.print(temp.data + " -> ");
+            System.out.print(temp.value + " -> ");
             temp = temp.next;
         }
         System.out.println("null");

@@ -1,10 +1,10 @@
-package org.personal.concurrency.exercises.dsa.dependencies;
+package org.personal.concurrency.exercises.dependencies;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.personal.concurrency.exercises.dsa.dependencies.Constants.*;
+import static org.personal.concurrency.exercises.dependencies.Constants.*;
 
 public class BinaryTree<T> {
     public TreeNode<T> root;
@@ -78,7 +78,7 @@ public class BinaryTree<T> {
 
     }
 
-    // Helper function to perform inorder traversal
+    // Helper function to perform postorder traversal
     private void traversePostOrder(TreeNode<T> root, ArrayList<T> nodes) {
         if (root == null) return;
         traversePostOrder(root.left, nodes);  // Visit left subtree
@@ -86,12 +86,21 @@ public class BinaryTree<T> {
         nodes.add(root.value);       // Visit node
     }
 
-    // Helper function to perform inorder traversal
+    // Helper function to perform preorder traversal
     private void traversePreOrder(TreeNode<T> root, ArrayList<T> nodes) {
         if (root == null) return;
         nodes.add(root.value);        // Visit node
         traversePreOrder(root.left, nodes);  // Visit left subtree
         traversePreOrder(root.right, nodes); // Visit right subtree
+    }
+
+    // Helper function to perform preorder traversal
+    public ArrayList<Integer> traversePreOrderArray(TreeNode<Integer> root, ArrayList<Integer> nodes) {
+        if (root == null) return nodes;
+        int prevRoot = root.value;
+        traversePreOrderArray(root.left, nodes);  // Visit left subtree
+        traversePreOrderArray(root.right, nodes);
+        return nodes;
     }
 }
 

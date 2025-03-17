@@ -1,7 +1,7 @@
 package org.personal.concurrency.exercises.dsa;
 
-import org.personal.concurrency.exercises.dsa.dependencies.BasicLinkedList;
-import org.personal.concurrency.exercises.dsa.dependencies.Node;
+import org.personal.concurrency.exercises.dependencies.BasicLinkedList;
+import org.personal.concurrency.exercises.dependencies.Node;
 
 public class ExchangeLinkedListNodes {
 

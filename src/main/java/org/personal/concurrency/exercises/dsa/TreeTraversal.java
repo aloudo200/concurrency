@@ -1,19 +1,19 @@
 package org.personal.concurrency.exercises.dsa;
 
-import org.personal.concurrency.exercises.dsa.dependencies.BinaryTree;
-import org.personal.concurrency.exercises.dsa.dependencies.TreeNode;
-import org.springframework.data.relational.core.sql.In;
+import org.personal.concurrency.exercises.dependencies.BinaryTree;
+import org.personal.concurrency.exercises.dependencies.TreeNode;
 
 import java.util.*;
 
-import static org.personal.concurrency.exercises.dsa.dependencies.Constants.*;
+import static org.personal.concurrency.exercises.dependencies.Constants.*;
 
 public class TreeTraversal {
 
+    private static int maxPathSum = Integer.MIN_VALUE;
+
     public static void main(String[] args) {
 
-
-        BinaryTree tree = new BinaryTree<Integer>();
+        BinaryTree<Integer> tree = new BinaryTree<>();
         tree.root = new TreeNode<>(5);
         tree.insertLeft(tree.root, 10);
         tree.insertRight(tree.root, 15);
@@ -27,9 +27,16 @@ public class TreeTraversal {
         tree.printTree(tree.root);
         System.out.println(printLevelOrder(tree.root));
 
-        System.out.println("In order traversal: " + tree.traverseTree(tree.root, IN_ORDER));
+//        System.out.println("In order traversal: " + tree.traverseTree(tree.root, IN_ORDER));
         System.out.println("Pre order traversal: " + tree.traverseTree(tree.root, PRE_ORDER));
-        System.out.println("Post order traversal: " + tree.traverseTree(tree.root, POST_ORDER));
+//        System.out.println("Post order traversal: " + tree.traverseTree(tree.root, POST_ORDER));
+
+
+        ArrayList<Integer> preOrderArray = tree.traversePreOrderArray(tree.root, new ArrayList<>());
+
+        System.out.println("Pre order traversal in array : " + preOrderArray);
+
+        System.out.println("Pre order traversal max sum: " + findMaxPathSum(tree.root) );
 
         System.out.println("Ancestors: " + ancestors(tree.root, 42));
         System.out.println("Mindepth " + minDepth(tree.root));
@@ -66,6 +73,39 @@ public class TreeTraversal {
             return true;
         }
         return false;
+    }
+
+    // Function to calculate subtree sums
+    private static int findMaxPathSum(TreeNode<Integer> root) {
+        if (root == null) return 0;
+
+        // Compute the maximum sum from left and right subtrees (ignore negative paths)
+        int leftMax = Math.max(0, findMaxPathSum(root.left));
+        int rightMax = Math.max(0, findMaxPathSum(root.right));
+
+        // Compute the sum if we consider the current node as the highest point (root of the path)
+        int currentPathSum = root.value + leftMax + rightMax;
+
+        // Update global max if the current path sum is the highest found
+        maxPathSum = Math.max(maxPathSum, currentPathSum);
+
+        // Return max single path sum (either left or right)
+        return root.value + Math.max(leftMax, rightMax);
+    }
+
+    private ArrayList<Integer> postOrderTraversalSum(TreeNode<Integer> root, HashSet<Integer> seen, ArrayList<Integer> nodeVals) {
+        if(root.value != null && !seen.contains(root.value)) {
+            seen.add(root.value);
+            nodeVals.add(root.value);
+
+        } else {
+            nodeVals.add(null);
+        }
+
+        postOrderTraversalSum(root.left, seen, nodeVals);
+        postOrderTraversalSum(root.right, seen, nodeVals);
+
+        return nodeVals;
     }
 
 

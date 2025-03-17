@@ -1,4 +1,4 @@
-package org.personal.concurrency.exercises.dsa.dependencies;
+package org.personal.concurrency.exercises.dependencies;
 
 public class TreeNode<T> {
     public T value;
