@@ -27,20 +27,15 @@ public class TreeTraversal {
         tree.printTree(tree.root);
         System.out.println(printLevelOrder(tree.root));
 
-//        System.out.println("In order traversal: " + tree.traverseTree(tree.root, IN_ORDER));
+        System.out.println("In order traversal: " + tree.traverseTree(tree.root, IN_ORDER));
         System.out.println("Pre order traversal: " + tree.traverseTree(tree.root, PRE_ORDER));
-//        System.out.println("Post order traversal: " + tree.traverseTree(tree.root, POST_ORDER));
-
-
-        ArrayList<Integer> preOrderArray = tree.traversePreOrderArray(tree.root, new ArrayList<>());
-
-        System.out.println("Pre order traversal in array : " + preOrderArray);
+        System.out.println("Post order traversal: " + tree.traverseTree(tree.root, POST_ORDER));
 
         System.out.println("Pre order traversal max sum: " + findMaxPathSum(tree.root) );
+        System.out.printf("Post order traversal sum : %s\n ", postOrderTraversalSum(tree.root, new HashSet<>(), new ArrayList<>()));
 
         System.out.println("Ancestors: " + ancestors(tree.root, 42));
         System.out.println("Mindepth " + minDepth(tree.root));
-
 
     }
 
@@ -75,37 +70,34 @@ public class TreeTraversal {
         return false;
     }
 
-    // Function to calculate subtree sums
+    // function to eval subtree sums
     private static int findMaxPathSum(TreeNode<Integer> root) {
         if (root == null) return 0;
 
-        // Compute the maximum sum from left and right subtrees (ignore negative paths)
+        // recursively compute, ignore negative paths
         int leftMax = Math.max(0, findMaxPathSum(root.left));
         int rightMax = Math.max(0, findMaxPathSum(root.right));
 
-        // Compute the sum if we consider the current node as the highest point (root of the path)
+        // if current node as the highest point (root of the path), compute sum
         int currentPathSum = root.value + leftMax + rightMax;
 
-        // Update global max if the current path sum is the highest found
+        // update global max if the current path sum is the highest found and return
         maxPathSum = Math.max(maxPathSum, currentPathSum);
-
-        // Return max single path sum (either left or right)
         return root.value + Math.max(leftMax, rightMax);
     }
 
-    private ArrayList<Integer> postOrderTraversalSum(TreeNode<Integer> root, HashSet<Integer> seen, ArrayList<Integer> nodeVals) {
+    private static ArrayList<Integer> postOrderTraversalSum(TreeNode<Integer> root, HashSet<Integer> seen, ArrayList<Integer> nodeVals) {
         if(root.value != null && !seen.contains(root.value)) {
             seen.add(root.value);
             nodeVals.add(root.value);
-
-        } else {
-            nodeVals.add(null);
+            return nodeVals;
         }
 
         postOrderTraversalSum(root.left, seen, nodeVals);
         postOrderTraversalSum(root.right, seen, nodeVals);
 
         return nodeVals;
+
     }
 
 
